@@ -27,7 +27,6 @@ public class MovieRepository {
 
         MovieDataService movieDataService = RetrofitInstance.getService();
         Call<MovieDBResponse> call = movieDataService.getPopularMovies(application.getApplicationContext().getString(R.string.api_key));
-
         call.enqueue(new Callback<MovieDBResponse>() {
             @Override
             public void onResponse(Call<MovieDBResponse> call, Response<MovieDBResponse> response) {
