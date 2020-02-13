@@ -5,10 +5,19 @@ import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.example.mdbclient.BR;
+import com.example.mdbclient.R;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Movie implements Parcelable
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.BindingAdapter;
+
+public class Movie extends BaseObservable implements Parcelable
 {
 
     @SerializedName("vote_count")
@@ -32,6 +41,18 @@ public class Movie implements Parcelable
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
+
+    @BindingAdapter({"posterPath"})
+    public static void loadImage(ImageView imageView, String imageUrl) {
+
+        String imagePath="https://image.tmdb.org/t/p/w500"+imageUrl;
+        Glide.with(imageView.getContext())
+                .load(imagePath)
+                .placeholder(R.drawable.loading)
+                .into(imageView);
+    }
+
+
     @SerializedName("original_language")
     @Expose
     private String originalLanguage;
@@ -88,22 +109,27 @@ public class Movie implements Parcelable
     public Movie() {
     }
 
+    @Bindable
     public Integer getVoteCount() {
         return voteCount;
     }
 
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
+        notifyPropertyChanged(com.example.mdbclient.BR.voteCount);
     }
 
+    @Bindable
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+        notifyPropertyChanged(com.example.mdbclient.BR.id);
     }
 
+    @Bindable
     public Boolean getVideo() {
         return video;
     }
@@ -112,22 +138,27 @@ public class Movie implements Parcelable
         this.video = video;
     }
 
+    @Bindable
     public Double getVoteAverage() {
         return voteAverage;
     }
 
     public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
+        notifyPropertyChanged(com.example.mdbclient.BR.voteAverage);
     }
 
+    @Bindable
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+        notifyPropertyChanged(com.example.mdbclient.BR.title);
     }
 
+    @Bindable
     public Double getPopularity() {
         return popularity;
     }
@@ -136,14 +167,17 @@ public class Movie implements Parcelable
         this.popularity = popularity;
     }
 
+    @Bindable
     public String getPosterPath() {
         return posterPath;
     }
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+        notifyPropertyChanged(com.example.mdbclient.BR.posterPath);
     }
 
+    @Bindable
     public String getOriginalLanguage() {
         return originalLanguage;
     }
@@ -152,14 +186,17 @@ public class Movie implements Parcelable
         this.originalLanguage = originalLanguage;
     }
 
+    @Bindable
     public String getOriginalTitle() {
         return originalTitle;
     }
 
     public void setOriginalTitle(String originalTitle) {
         this.originalTitle = originalTitle;
+        notifyPropertyChanged(com.example.mdbclient.BR.originalTitle);
     }
 
+    @Bindable
     public List<Integer> getGenreIds() {
         return genreIds;
     }
@@ -168,6 +205,7 @@ public class Movie implements Parcelable
         this.genreIds = genreIds;
     }
 
+    @Bindable
     public String getBackdropPath() {
         return backdropPath;
     }
@@ -176,6 +214,7 @@ public class Movie implements Parcelable
         this.backdropPath = backdropPath;
     }
 
+    @Bindable
     public Boolean getAdult() {
         return adult;
     }
@@ -184,20 +223,24 @@ public class Movie implements Parcelable
         this.adult = adult;
     }
 
+    @Bindable
     public String getOverview() {
         return overview;
     }
 
     public void setOverview(String overview) {
         this.overview = overview;
+        notifyPropertyChanged(com.example.mdbclient.BR.overview);
     }
 
+    @Bindable
     public String getReleaseDate() {
         return releaseDate;
     }
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+        notifyPropertyChanged(com.example.mdbclient.BR.releaseDate);
     }
 
     public void writeToParcel(Parcel dest, int flags) {
