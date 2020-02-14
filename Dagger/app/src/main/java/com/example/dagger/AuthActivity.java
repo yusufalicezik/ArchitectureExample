@@ -1,13 +1,10 @@
 package com.example.dagger;
 
 import dagger.android.support.DaggerAppCompatActivity;
-
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
-
 import com.bumptech.glide.RequestManager;
-
 import javax.inject.Inject;
 
 public class AuthActivity extends DaggerAppCompatActivity {
