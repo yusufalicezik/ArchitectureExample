@@ -6,14 +6,18 @@ import android.os.Bundle;
 import com.example.mdbclient.R;
 import com.example.mdbclient.adapter.MovieAdapter;
 import com.example.mdbclient.databinding.ActivityMainBinding;
+import com.example.mdbclient.dependencyinjection.App;
 import com.example.mdbclient.model.Movie;
 import com.example.mdbclient.model.MovieDBResponse;
 import com.example.mdbclient.service.MovieDataService;
 import com.example.mdbclient.service.RetrofitInstance;
 import com.example.mdbclient.viewmodel.MainActivityViewModel;
+import com.example.mdbclient.viewmodel.MainActivityViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -37,13 +41,19 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel mainActivityViewModel;
     private ActivityMainBinding activityMainBinding;
 
+    @Inject
+    public MainActivityViewModelFactory mainActivityViewModelFactory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("TMDB Popular Movies Today");
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        //mainActivityViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
+        App.getApp().getMovieComponent().inject(this);
+        mainActivityViewModel = ViewModelProviders.of(this,
+                mainActivityViewModelFactory).get(MainActivityViewModel.class);
         getPopularMovies();
         swipeRefreshLayout = activityMainBinding.swipeLayout;
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);

@@ -2,6 +2,7 @@ package com.example.mdbclient.viewmodel;
 
 import android.app.Application;
 
+import com.example.mdbclient.dependencyinjection.App;
 import com.example.mdbclient.model.Movie;
 import com.example.mdbclient.model.MovieDataSource;
 import com.example.mdbclient.model.MovieDataSourceFactory;
@@ -13,24 +14,26 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-public class MainActivityViewModel extends AndroidViewModel {
+public class MainActivityViewModel extends ViewModel {
 
     private MovieRepository movieRepository;
     LiveData<MovieDataSource> movieDataSourceLiveData;
     private Executor executor; //for thread
     private LiveData<PagedList<Movie>> moviesPagedList;
 
-    public MainActivityViewModel(@NonNull Application application) {
-        super(application);
-        movieRepository = new MovieRepository(application);
+    public MainActivityViewModel(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
         MovieDataService movieDataService = RetrofitInstance.getService();
-        MovieDataSourceFactory factory = new MovieDataSourceFactory(movieDataService, application);
+        MovieDataSourceFactory factory = new MovieDataSourceFactory(movieDataService);
         movieDataSourceLiveData = factory.getMutableLiveData();
         PagedList.Config config = (new PagedList.Config.Builder())
                 .setEnablePlaceholders(true)
