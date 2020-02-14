@@ -1,15 +1,14 @@
 package com.example.dagger.di;
 
 import android.app.Application;
-
 import com.example.dagger.BaseApplication;
-
+import javax.inject.Singleton;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
-import dagger.android.support.DaggerApplication;
 
+@Singleton
 @Component(modules = {ActivityBuildersModule.class, AppModule.class, AndroidSupportInjectionModule.class})
 public interface AppComponent extends AndroidInjector<BaseApplication>{
 
